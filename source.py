@@ -106,9 +106,9 @@ class LQR:
     
     def ArimotoPotter(self):
 
-        print("### Implementing: ")
+        # See C++ code 
         
-        return 0
+        return None
 
 def main():    
     ## start
