@@ -11,6 +11,9 @@ import time
 import scipy.linalg as linalg
 from scipy.integrate import quad
 
+# methods
+from tanhsinh import TanhSinh
+
 np.set_printoptions(precision=2)
 
 class Comments:
@@ -80,6 +83,38 @@ class LQR:
 
         self.FirstIteration = True        
     
+    def Integrand(self, x):
+        temp1 = np.dot(x, self.A)
+        temp2 = np.dot(self.A.T, x)
+        temp3 = -(x @ self.B @ linalg.inv(self.R) @ self.B.T @ x) # R is skipped because it is 1
+        temp4 = self.Q
+        
+        return temp1 + temp2 + temp3 + temp4
+
+    # something wrong
+    def TanhSinhIntegral(self):
+        ts = TanhSinh()
+        sn = np.eye(self.SIZE)
+        #new = ts.SH*self.Integrand(ts.PHIE(0))*ts.DPHIE(0)
+        new = 0
+        old = np.zeros((self.SIZE, self.SIZE), dtype='float64')
+        difference = ts.DIFF
+
+        while difference > ts.CONV:
+            # integral calculation
+            new = new + (self.Integrand(ts.PHIE(-sn))*ts.DPHIE(-sn) + \
+                         self.Integrand(ts.PHIE(sn))*ts.DPHIE(sn))
+            # conv check
+            difference = abs(np.max(new-old))
+
+            sn = sn + np.eye(self.SIZE)
+            old = new
+
+            if difference < ts.CONV:
+                break
+            
+        return ts.SH*new
+
     def Iteration(self):        
 
         while True:            
@@ -106,7 +141,7 @@ class LQR:
     
     def ArimotoPotter(self):
 
-        # See C++ code 
+        # See C++ code
         
         return None
 
@@ -124,6 +159,10 @@ def main():
     print(ans)
 
     ans = lqr.ArimotoPotter()
+    print("### P matrix: ")
+    print(ans)
+
+    ans = lqr.TanhSinhIntegral() # this instance is not working as expected.
     print("### P matrix: ")
     print(ans)
 
