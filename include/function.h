@@ -1,13 +1,7 @@
 #ifndef _FUNCTION_H_
 #define _FUNCTION_H_
 #include <Eigen/Dense> /* this is for 2x2 matrix */
-
-struct MatVec {
-    Eigen::VectorXd bmat{};
-    Eigen::MatrixXd Amat{};    /* Just declare type, NODE_TOTAL is necessary but is defined in the class below */
-    Eigen::VectorXd xvector{}; /* Just declare type, NODE_TOTAL is necessary but is defined in the class below */
-    Eigen::VectorXd uvector{};
-};
+#include "datatypes.h" /* the same directory, include struct type */
 
 class Message
 {
@@ -20,6 +14,14 @@ class Display /* Finite Element class */
 {
     public:                        
         void show(Eigen::MatrixXd* Amat, Eigen::VectorXd* bmat);
+};
+
+class MatVecGeneration{
+    public:
+        MatVec inputs;
+        MatVecGeneration();     /* This is a constructor */
+        double DefineInputs();
+
 };
 
 #endif // _FUNCTION_H_

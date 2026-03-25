@@ -4,8 +4,9 @@
 int main()
 {
     Message obj_m;        
-    obj_m.start();
-    
+    Display obj_disp;
+
+    obj_m.start();    
 
     obj_m.end();    
 

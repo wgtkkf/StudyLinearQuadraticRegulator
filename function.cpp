@@ -1,5 +1,6 @@
 #include <iostream>    // need this
 #include "include/function.h"
+#include "include/datatypes.h"
 #include <cmath>       // for mathemetical operator such as power function
 #include <format>      // for printing out
 #include <iomanip>     // For formatting
@@ -26,4 +27,19 @@ void Display::show(Eigen::MatrixXd* Amat, Eigen::VectorXd* bmat)
     std::cout << "--- Matrix Bmat ---" << std::endl;
     std::cout << *bmat << std::endl;
     std::cout << "-------------------" << std::endl;
+}
+
+/* This is a constructor */
+MatVecGeneration::MatVecGeneration(){
+    inputs.Amat.setZero();
+    inputs.Bmat.setZero();
+    inputs.Qmat.setZero();
+    inputs.Rmat.setZero();
+    inputs.Pmat.setZero();
+}
+
+double MatVecGeneration::DefineInputs(){    
+    inputs.Amat(0, 1) = 1.0;    
+
+    return 0;
 }
