@@ -162,9 +162,9 @@ def main():
     print("### P matrix: ")
     print(ans)
 
-    ans = lqr.TanhSinhIntegral() # this instance is not working as expected.
-    print("### P matrix: ")
-    print(ans)
+    #ans = lqr.TanhSinhIntegral() # this instance is not working as expected.
+    #print("### P matrix: ")
+    #print(ans)
 
     ## end
     msg.end()                      # message method
