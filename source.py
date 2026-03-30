@@ -9,10 +9,10 @@
 import numpy as np
 import time
 import scipy.linalg as linalg
-from scipy.integrate import quad
 
 # methods
 from tanhsinh import TanhSinh
+from ArimotoPotter import Solver
 
 np.set_printoptions(precision=2)
 
@@ -41,7 +41,7 @@ class LQR:
     # parameters 
     SIZE = 4
     CRITERIA = np.power(10., -7)
-    DT = np.power(10., -3)
+    DT = np.power(10., -5)
 
     def __init__(self):        
 
@@ -82,6 +82,9 @@ class LQR:
         self.P_past = self.P
 
         self.FirstIteration = True        
+
+        #
+        self.solver = Solver(self.A, self.B, self.Q, self.R)
     
     def Integrand(self, x):
         temp1 = np.dot(x, self.A)
@@ -139,11 +142,11 @@ class LQR:
 
         return self.P
     
-    def ArimotoPotter(self):
+    def AP(self): # ArimotoPotter
 
-        # See C++ code
+        ap = self.solver.MatrixOperation()
         
-        return None
+        return ap
 
 def main():    
     ## start
@@ -155,11 +158,11 @@ def main():
     lqr = LQR()
 
     ans = lqr.Iteration()
-    print("### P matrix: ")
+    print("### P matrix by Iterative Method: ")
     print(ans)
 
-    ans = lqr.ArimotoPotter()
-    print("### P matrix: ")
+    ans = lqr.AP()
+    print("### P matrix by ArimotoPotter Method: ")
     print(ans)
 
     #ans = lqr.TanhSinhIntegral() # this instance is not working as expected.
